@@ -39,3 +39,16 @@ float& Matrix::operator()(unsigned i, unsigned j) {
 const float& Matrix::operator()(unsigned i, unsigned j) const {
     return mData[i * mColumns + j];
 }
+
+std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
+    os << "Matrix size: (" << matrix.mRows << "; " << matrix.mColumns << ")" << std::endl;
+    for(unsigned i = 0; i < matrix.mRows; ++i) {
+        os << "[ ";
+        for(unsigned j = 0; j < matrix.mColumns; ++j) {
+            os << matrix(i, j) << " ";
+        }
+        os << "]" << std::endl;
+    }
+
+    return os;
+}

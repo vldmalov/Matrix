@@ -6,17 +6,7 @@
 
 void PrintMatrix(const std::string& title, const Matrix& matrix) {
     std::cout << title << std::endl;
-    const std::pair<unsigned, unsigned> matrixSize = matrix.GetSize();
-
-    std::cout << "Matrix size: (" << matrixSize.first << "; " << matrixSize.second << ")" << std::endl;
-
-    for(unsigned i = 0; i < matrixSize.first; ++i) {
-        std::cout << "[ ";
-        for(unsigned j = 0; j < matrixSize.second; ++j) {
-            std::cout << matrix(i, j) << " ";
-        }
-        std::cout << "]" << std::endl;
-    }
+    std::cout << matrix << std::endl;
 }
 
 int main() {
