@@ -1,2 +1,2 @@
 # Matrix
-Matrix class with unit tests and benchmarks
+Simple general purpose matrix class with unit tests and benchmarks
