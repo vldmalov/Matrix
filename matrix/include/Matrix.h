@@ -1,11 +1,14 @@
 #pragma once
 
-#include <utility>  // std::pair
+#include <iosfwd>
+#include <utility>
+#include <initializer_list>
 
 struct Matrix {
 public:
     Matrix() = delete;
     Matrix(unsigned rows, unsigned columns, float itemValue = 0.f);
+    Matrix(unsigned rows, unsigned columns, std::initializer_list<float> values);
     Matrix(const Matrix& another);
     ~Matrix();
 

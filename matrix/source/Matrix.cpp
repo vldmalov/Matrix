@@ -5,7 +5,7 @@
 
 Matrix::Matrix(unsigned rows, unsigned columns, float itemValue)
 : mRows(rows)
-, mColumns(columns){
+, mColumns(columns) {
     if(mRows == 0 || mColumns == 0) {
         throw std::invalid_argument("Matrix sizes should be grater than 0");
     }
@@ -16,9 +16,24 @@ Matrix::Matrix(unsigned rows, unsigned columns, float itemValue)
 
 Matrix::Matrix(const Matrix& another)
 : mRows(another.mRows)
-, mColumns(another.mColumns){
+, mColumns(another.mColumns) {
     mData = new float[mRows * mColumns];
     std::copy(another.mData, another.mData + mRows * mColumns, mData);
+}
+
+Matrix::Matrix(unsigned rows, unsigned columns, std::initializer_list<float> values)
+: mRows(rows)
+, mColumns(columns) {
+    if (mRows == 0 || mColumns == 0) {
+        throw std::invalid_argument("Matrix sizes should be grater than 0");
+    }
+
+    if (mRows * mColumns != values.size()) {
+        throw std::invalid_argument("Matrix size doesn't correspond to size of initializer list");
+    }
+
+    mData = new float[mRows * mColumns];
+    std::copy(values.begin(), values.end(), mData);
 }
 
 Matrix::~Matrix() {

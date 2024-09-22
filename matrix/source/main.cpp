@@ -63,6 +63,31 @@ int main() {
     PrintMatrix("Identity Matrix 3x3", identityMatrix3x3);
     PrintMatrix("Copied Identity Matrix 3x3", copiedIdentityMatrix3x3);
 
+    // Create matrix with initializer list
+    Matrix matrix1_3{1, 3, {10.f, -30.f, 5.25f}};
+    std::cout << "Matrix 1x3: " << matrix1_3 << std::endl;
+
+    Matrix matrix3_1{3, 1, {10.f, -30.f, 5.25f}};
+    std::cout << "Matrix 3x1: " << matrix3_1 << std::endl;
+
+    {
+        Matrix matrix3_3{3, 3, {10.f, 0.f, 5.25f,
+                                0.f, -4.f, 12.1f,
+                                56.7f, -2.f, 1.f}};
+        std::cout << "Matrix 3x3: " << matrix3_3 << std::endl;
+    }
+    {
+        try {
+            Matrix matrix3_3{3, 3, {10.f, 0.f, 5.25f,
+                                    0.f, -4.f, 12.1f,
+                                    56.7f}};
+            std::cout << "Matrix 3x3: " << matrix3_3 << std::endl;
+        }
+        catch(std::exception& ex) {
+            std::cout << "Attempt to construct a matrix with invalid parameters. Details: " << ex.what() << std::endl;
+        }
+    }
+
     return 0;
 }
 
