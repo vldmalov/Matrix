@@ -6,6 +6,7 @@ struct Matrix {
 public:
     Matrix() = delete;
     Matrix(unsigned rows, unsigned columns, float itemValue = 0.f);
+    Matrix(const Matrix& another);
     ~Matrix();
 
     std::pair<unsigned, unsigned> GetSize() const;

@@ -14,6 +14,13 @@ Matrix::Matrix(unsigned rows, unsigned columns, float itemValue)
     std::fill(mData, mData + mRows * mColumns, itemValue);
 }
 
+Matrix::Matrix(const Matrix& another)
+: mRows(another.mRows)
+, mColumns(another.mColumns){
+    mData = new float[mRows * mColumns];
+    std::copy(another.mData, another.mData + mRows * mColumns, mData);
+}
+
 Matrix::~Matrix() {
     if(mData) {
         delete [] mData;

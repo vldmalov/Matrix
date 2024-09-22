@@ -59,6 +59,20 @@ int main() {
     identityMatrix3x3(2, 2) = 1.f;
     PrintMatrix("Identity Matrix 3x3", identityMatrix3x3);
 
+    // Copy matrix
+    // Exercise1: Try to copy without writing a copy constructor
+    Matrix copiedIdentityMatrix3x3 = identityMatrix3x3;
+    PrintMatrix("Copied Identity Matrix 3x3", copiedIdentityMatrix3x3);
+
+    // Modify copied matrix
+    copiedIdentityMatrix3x3(0, 1) = 2.5f;
+    copiedIdentityMatrix3x3(2, 1) = -4.7f;
+
+    // Print both matrices
+    std::cout << "After modification" << std::endl;
+    PrintMatrix("Identity Matrix 3x3", identityMatrix3x3);
+    PrintMatrix("Copied Identity Matrix 3x3", copiedIdentityMatrix3x3);
+
     return 0;
 }
 
