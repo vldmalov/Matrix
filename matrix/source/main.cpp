@@ -11,13 +11,13 @@ void TryConstructInvalidMatrices();
 void AccessMatrixItems();
 void AccessConstMatrixItems();
 void CopyMatrices();
+void MatrixAdd();
+void MatrixSubtract();
+void MultiplyMatrixOnScalar();
 
 void PrintMatrix(const std::string& title, const Matrix& matrix) {
-    std::cout << title << std::endl;
-    std::cout << matrix << std::endl;
+    std::cout << title << std::endl << matrix << std::endl;
 }
-
-
 
 int main() {
     std::cout << "Test application for the matrix class" << std::endl;
@@ -28,6 +28,9 @@ int main() {
     AccessMatrixItems();
     AccessConstMatrixItems();
     CopyMatrices();
+    MatrixAdd();
+    MatrixSubtract();
+    MultiplyMatrixOnScalar();
 }
 
 void ConstructDefaultMatrices() {
@@ -121,6 +124,43 @@ void CopyMatrices() {
     std::cout << "After modification" << std::endl;
     PrintMatrix("Source Matrix 3x3", diagonalMatrix3_3);
     PrintMatrix("Copied Matrix 3x3", copiedDiagonalMatrix3x3);
+}
+
+void MatrixAdd() {
+    Matrix matrix_a{3, 3, {10.f, 9.f, 8.f,
+                           7.f, 6.f, 5.f,
+                           4.f, 3.f, 2.f}};
+
+    Matrix matrix_b{3, 3, {0.f, 2.f, -4.f,
+                           6.f, -8.f, 10.f,
+                           -12.f, 14.f, 16.f}};
+
+    std::cout << "Matrix A: " << matrix_a << std::endl;
+    std::cout << "Matrix B: " << matrix_b << std::endl;
+
+    matrix_a += matrix_b;
+    std::cout << "Matrix A after addition operation: " << matrix_a << std::endl;
+}
+
+void MatrixSubtract() {
+    Matrix matrix_a{3, 3, {10.f, 9.f, 8.f,
+                           7.f, 6.f, 5.f,
+                           4.f, 3.f, 2.f}};
+
+    Matrix matrix_b{3, 3, {0.f, 2.f, -4.f,
+                           6.f, -8.f, 10.f,
+                           -12.f, 14.f, 16.f}};
+    matrix_a -= matrix_b;
+    std::cout << "Matrix A after addition operation: " << matrix_a << std::endl;
+}
+
+void MultiplyMatrixOnScalar() {
+    Matrix matrix{3, 3, {  -8, 6, 1,
+                           7, 0, -3,
+                           2, 4, 5}};
+
+    matrix *= -1.5f;
+    std::cout << "Matrix multiplied on scalar: " << matrix << std::endl;
 }
 
 

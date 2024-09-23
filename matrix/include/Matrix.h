@@ -17,6 +17,10 @@ public:
     float& operator()(unsigned i, unsigned j);
     const float& operator()(unsigned i, unsigned j) const;
 
+    Matrix& operator+=(const Matrix& another);
+    Matrix& operator-=(const Matrix& another);
+    Matrix& operator*=(float scalar);
+
     friend std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
 
 private:

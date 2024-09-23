@@ -55,6 +55,35 @@ const float& Matrix::operator()(unsigned i, unsigned j) const {
     return mData[i * mColumns + j];
 }
 
+Matrix& Matrix::operator+=(const Matrix& another) {
+    if(mRows != another.mRows || mColumns != another.mColumns) {
+        throw std::invalid_argument("Matrices should have the same size");
+    }
+
+    for(unsigned idx = 0; idx < mRows*mColumns; ++idx) {
+        *(mData + idx) += *(another.mData + idx);
+    }
+    return *this;
+}
+
+Matrix& Matrix::operator-=(const Matrix& another) {
+    if(mRows != another.mRows || mColumns != another.mColumns) {
+        throw std::invalid_argument("Matrices should have the same size");
+    }
+
+    for(unsigned idx = 0; idx < mRows*mColumns; ++idx) {
+        *(mData + idx) -= *(another.mData + idx);
+    }
+    return *this;
+}
+
+Matrix& Matrix::operator*=(float scalar) {
+    for(unsigned idx = 0; idx < mRows*mColumns; ++idx) {
+        *(mData + idx) *= scalar;
+    }
+    return *this;
+}
+
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
     os << "Matrix size: (" << matrix.mRows << "; " << matrix.mColumns << ")" << std::endl;
     for(unsigned i = 0; i < matrix.mRows; ++i) {
