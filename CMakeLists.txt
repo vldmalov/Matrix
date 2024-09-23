@@ -18,3 +18,5 @@ set(all_sources ${source_files} ${include_files})
 add_executable(${target_name} WIN32 MACOSX_BUNDLE ${all_sources})
 
 target_include_directories(${target_name} PRIVATE "./matrix/include")
+
+add_subdirectory("matrix/unit_tests")
