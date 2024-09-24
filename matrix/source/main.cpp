@@ -4,6 +4,10 @@
 
 #include "Matrix.h"
 
+// Show float array in Watch window:
+// 1. LLDB (float(*)[9])matrix_a.mData
+// 2. GDB (float[9])matrix_a.mData
+
 void ConstructDefaultMatrices();
 void ConstructFilledMatrices();
 void ConstructMatricesWithInitializerList();
