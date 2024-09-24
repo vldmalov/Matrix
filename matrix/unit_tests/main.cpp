@@ -214,6 +214,25 @@ TEST(MatrixOperations, AdditionAssignmentOperator) {
     EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.0f);
 }
 
+TEST(MatrixOperations, AdditionAssignmentOperatorDifferentSizes) {
+    // Arrange
+    Matrix firstMatrix{1, 2, {1.f, 2.0f}};
+
+    Matrix secondMatrix{2, 1, {10.f,
+                               20.0f}};
+
+    try {
+        // Act
+        firstMatrix += secondMatrix;
+        FAIL() << "Expected std::invalid_argument";
+    } catch(std::invalid_argument const & err) {
+        // Assert
+        EXPECT_EQ(err.what(), std::string("Matrices should have the same size"));
+    } catch(...) {
+        FAIL() << "Expected std::invalid_argument";
+    }
+}
+
 TEST(MatrixOperations, SubstractionAssignmentOperator) {
     // Arrange
     Matrix firstMatrix{2, 2, {1.f, 2.0f,
@@ -235,6 +254,25 @@ TEST(MatrixOperations, SubstractionAssignmentOperator) {
     EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.0f);
     EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.0f);
     EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.0f);
+}
+
+TEST(MatrixOperations, SubstractionAssignmentOperatorDifferentSizes) {
+    // Arrange
+    Matrix firstMatrix{1, 2, {1.f, 2.0f}};
+
+    Matrix secondMatrix{2, 1, {10.f,
+                               20.0f}};
+
+    try {
+        // Act
+        firstMatrix -= secondMatrix;
+        FAIL() << "Expected std::invalid_argument";
+    } catch(std::invalid_argument const & err) {
+        // Assert
+        EXPECT_EQ(err.what(), std::string("Matrices should have the same size"));
+    } catch(...) {
+        FAIL() << "Expected std::invalid_argument";
+    }
 }
 
 TEST(MatrixOperations, MultipyMatrixOnZeroScalar) {
