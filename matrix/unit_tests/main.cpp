@@ -31,10 +31,10 @@ TEST(MatrixCreation, ConstructColumnMatrixWithDefaultValues) {
     EXPECT_FLOAT_EQ(matrix(3, 0), 0.f);
 }
 
-TEST(MatrixCreation, ConstructSquareMatrixWithDefaultValues) {
+TEST(MatrixCreation, ConstructSquareConstMatrixWithDefaultValues) {
     // Arrange
     // Act
-    Matrix matrix{2, 2};
+    const Matrix matrix{2, 2};
 
     // Assert
     auto matrixSize = matrix.GetSize();
@@ -130,5 +130,157 @@ TEST(MatrixCreation, ConstructInvalidMatrixWithInitializerList) {
         FAIL() << "Expected std::invalid_argument";
     }
 }
+
+TEST(MatrixItemsAccess, SetItemValues) {
+    // Arrange
+    Matrix matrix{2, 3, {1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f}};
+
+    // Act
+    matrix(0, 2) = -10.f;
+    matrix(1, 2) = 10.f;
+
+    // Assert
+    EXPECT_FLOAT_EQ(matrix(0, 0), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 2), -10.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 2), 10.0f);
+}
+
+TEST(MatrixOperations, CopyMatrix) {
+    // Arrange
+    Matrix sourceMatrix{2, 2, {10.f, 0.0f,
+                               0.0f, 4.0f}};
+
+    // Act
+    Matrix copiedMatrix = sourceMatrix;
+
+    // Assert
+    EXPECT_FLOAT_EQ(sourceMatrix(0, 0), 10.0f);
+    EXPECT_FLOAT_EQ(sourceMatrix(0, 1), 0.0f);
+    EXPECT_FLOAT_EQ(sourceMatrix(1, 0), 0.0f);
+    EXPECT_FLOAT_EQ(sourceMatrix(1, 1), 4.0f);
+
+    EXPECT_FLOAT_EQ(copiedMatrix(0, 0), 10.0f);
+    EXPECT_FLOAT_EQ(copiedMatrix(0, 1), 0.0f);
+    EXPECT_FLOAT_EQ(copiedMatrix(1, 0), 0.0f);
+    EXPECT_FLOAT_EQ(copiedMatrix(1, 1), 4.0f);
+}
+
+TEST(MatrixOperations, CopyAndEditMatrix) {
+    // Arrange
+    Matrix sourceMatrix{2, 2, {10.f, 0.0f,
+                               0.0f, 4.0f}};
+
+    // Act
+    Matrix copiedMatrix = sourceMatrix;
+    copiedMatrix(0,0) = -2.f;
+    copiedMatrix(0,1) = 8.f;
+
+    // Assert
+    EXPECT_FLOAT_EQ(sourceMatrix(0, 0), 10.0f);
+    EXPECT_FLOAT_EQ(sourceMatrix(0, 1), 0.0f);
+    EXPECT_FLOAT_EQ(sourceMatrix(1, 0), 0.0f);
+    EXPECT_FLOAT_EQ(sourceMatrix(1, 1), 4.0f);
+
+    EXPECT_FLOAT_EQ(copiedMatrix(0, 0), -2.0f);
+    EXPECT_FLOAT_EQ(copiedMatrix(0, 1), 8.0f);
+    EXPECT_FLOAT_EQ(copiedMatrix(1, 0), 0.0f);
+    EXPECT_FLOAT_EQ(copiedMatrix(1, 1), 4.0f);
+}
+
+TEST(MatrixOperations, AdditionAssignmentOperator) {
+    // Arrange
+    Matrix firstMatrix{2, 2, {1.f, 2.0f,
+                              3.0f, 4.0f}};
+
+    Matrix secondMatrix{2, 2, {10.f, 20.0f,
+                               30.0f, 40.0f}};
+
+    // Act
+    firstMatrix += secondMatrix;
+
+    // Assert
+    EXPECT_FLOAT_EQ(firstMatrix(0, 0), 11.0f);
+    EXPECT_FLOAT_EQ(firstMatrix(0, 1), 22.0f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 0), 33.0f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 1), 44.0f);
+
+    EXPECT_FLOAT_EQ(secondMatrix(0, 0), 10.0f);
+    EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.0f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.0f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.0f);
+}
+
+TEST(MatrixOperations, SubstractionAssignmentOperator) {
+    // Arrange
+    Matrix firstMatrix{2, 2, {1.f, 2.0f,
+                              3.0f, 4.0f}};
+
+    Matrix secondMatrix{2, 2, {10.f, 20.0f,
+                               30.0f, 40.0f}};
+
+    // Act
+    firstMatrix -= secondMatrix;
+
+    // Assert
+    EXPECT_FLOAT_EQ(firstMatrix(0, 0), -9.0f);
+    EXPECT_FLOAT_EQ(firstMatrix(0, 1), -18.0f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 0), -27.0f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 1), -36.0f);
+
+    EXPECT_FLOAT_EQ(secondMatrix(0, 0), 10.0f);
+    EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.0f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.0f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.0f);
+}
+
+TEST(MatrixOperations, MultipyMatrixOnZeroScalar) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 0.0f,
+                         -3.0f, 3.0f}};
+
+    // Act
+    matrix *= 0.f;
+
+    // Assert
+    EXPECT_FLOAT_EQ(matrix(0, 0), 0.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 0.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 0.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 0.0f);
+}
+
+TEST(MatrixOperations, MultipyMatrixOnPositiveScalar) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 0.0f,
+                         -3.0f, 3.0f}};
+
+    // Act
+    matrix *= 4.5f;
+
+    // Assert
+    EXPECT_FLOAT_EQ(matrix(0, 0), 4.5f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 0.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), -13.5f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 13.5f);
+}
+
+TEST(MatrixOperations, MultipyMatrixOnNegativeScalar) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 0.0f,
+                         -3.0f, 3.0f}};
+
+    // Act
+    matrix *= -4.5f;
+
+    // Assert
+    EXPECT_FLOAT_EQ(matrix(0, 0), -4.5f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 0.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 13.5f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), -13.5f);
+}
+
 
 // TODO: Extend number of tests
