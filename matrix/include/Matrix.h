@@ -23,6 +23,12 @@ public:
     Matrix& operator-=(const Matrix& another);
     Matrix& operator*=(float scalar);
 
+    friend Matrix operator+(const Matrix& lhs, const Matrix& rhs);
+    friend Matrix operator-(const Matrix& lhs, const Matrix& rhs);
+    friend Matrix operator*(const Matrix& lhs, const Matrix& rhs);
+    friend Matrix operator*(const Matrix& matrix, float scalar);
+    friend Matrix operator*(float scalar, const Matrix& matrix);
+
     friend std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
 
 private:
@@ -30,5 +36,11 @@ private:
     unsigned mColumns{0};
     float* mData{nullptr};
 };
+
+Matrix operator+(const Matrix& lhs, const Matrix& rhs);
+Matrix operator-(const Matrix& lhs, const Matrix& rhs);
+Matrix operator*(const Matrix& lhs, const Matrix& rhs);
+Matrix operator*(const Matrix& matrix, float scalar);
+Matrix operator*(float scalar, const Matrix& matrix);
 
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix);

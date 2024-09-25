@@ -99,6 +99,47 @@ Matrix& Matrix::operator*=(float scalar) {
     return *this;
 }
 
+Matrix operator+(const Matrix& lhs, const Matrix& rhs) {
+    Matrix result(lhs);
+    result += rhs;
+    return result;
+}
+
+Matrix operator-(const Matrix& lhs, const Matrix& rhs) {
+    Matrix result(lhs);
+    result -= rhs;
+    return result;
+}
+
+Matrix operator*(const Matrix& lhs, const Matrix& rhs) {
+    if(lhs.mColumns != rhs.mRows) {
+        throw std::invalid_argument("Matrices sizes should correspond to each other");
+    }
+    unsigned rowsNumber = lhs.mRows;
+    unsigned columnsNumber = rhs.mColumns;
+    unsigned internalSize = lhs.mColumns;
+
+    Matrix result(rowsNumber, columnsNumber);
+    for(unsigned i = 0; i < rowsNumber; ++i) {
+        for(unsigned j = 0; j < columnsNumber; ++j) {
+            for(unsigned k = 0; k < internalSize; ++k) {
+                result(i, j) += lhs(i, k) * rhs(k, j);
+            }
+        }
+    }
+    return result;
+}
+
+Matrix operator*(const Matrix& matrix, float scalar) {
+    Matrix result(matrix);
+    result *= scalar;
+    return result;
+}
+
+Matrix operator*(float scalar, const Matrix& matrix) {
+    return operator*(matrix, scalar);
+}
+
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
     os << "Matrix size: (" << matrix.mRows << "; " << matrix.mColumns << ")" << std::endl;
     for(unsigned i = 0; i < matrix.mRows; ++i) {

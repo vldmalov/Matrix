@@ -405,5 +405,84 @@ TEST(MatrixOperations, MultipyMatrixOnNegativeScalar) {
     EXPECT_FLOAT_EQ(matrix(1, 1), -13.5f);
 }
 
+TEST(MatrixOperations, OperatorPlus) {
+    // Arrange
+    Matrix firstMatrix{2, 2, {1.f, 2.0f,
+                              3.0f, 4.0f}};
 
-// TODO: Extend number of tests
+    Matrix secondMatrix{2, 2, {10.f, 20.0f,
+                               30.0f, 40.0f}};
+
+    // Act
+    Matrix resultMatrix = firstMatrix + secondMatrix;
+
+    // Assert
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), 11.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 1), 22.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 0), 33.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 1), 44.f);
+
+    EXPECT_FLOAT_EQ(firstMatrix(0, 0), 1.f);
+    EXPECT_FLOAT_EQ(firstMatrix(0, 1), 2.f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 0), 3.f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 1), 4.f);
+
+    EXPECT_FLOAT_EQ(secondMatrix(0, 0), 10.f);
+    EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.f);
+}
+
+TEST(MatrixOperations, OperatorMinus) {
+    // Arrange
+    Matrix firstMatrix{2, 2, {1.f, 2.0f,
+                              3.0f, 4.0f}};
+
+    Matrix secondMatrix{2, 2, {10.f, 20.0f,
+                               30.0f, 40.0f}};
+
+    // Act
+    Matrix resultMatrix = firstMatrix - secondMatrix;
+
+    // Assert
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -9.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 1), -18.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 0), -27.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 1), -36.f);
+
+    EXPECT_FLOAT_EQ(firstMatrix(0, 0), 1.f);
+    EXPECT_FLOAT_EQ(firstMatrix(0, 1), 2.f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 0), 3.f);
+    EXPECT_FLOAT_EQ(firstMatrix(1, 1), 4.f);
+
+    EXPECT_FLOAT_EQ(secondMatrix(0, 0), 10.f);
+    EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.f);
+    EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.f);
+}
+
+TEST(MatrixOperations, OperatorMultiplyOnScalar) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 2.0f,
+                         3.0f, 4.0f}};
+
+    // Act
+    Matrix resultMatrix1 = matrix * 11.f;
+    Matrix resultMatrix2 = 11.f * matrix;
+
+    // Assert
+    EXPECT_FLOAT_EQ(resultMatrix1(0, 0), 11.f);
+    EXPECT_FLOAT_EQ(resultMatrix1(0, 1), 22.f);
+    EXPECT_FLOAT_EQ(resultMatrix1(1, 0), 33.f);
+    EXPECT_FLOAT_EQ(resultMatrix1(1, 1), 44.f);
+
+    EXPECT_FLOAT_EQ(resultMatrix2(0, 0), 11.f);
+    EXPECT_FLOAT_EQ(resultMatrix2(0, 1), 22.f);
+    EXPECT_FLOAT_EQ(resultMatrix2(1, 0), 33.f);
+    EXPECT_FLOAT_EQ(resultMatrix2(1, 1), 44.f);
+}
+
+TEST(MatrixOperations, OperatorMultiplyMatrices) {
+    // TODO: Implement
+    //Matrix operator*(const Matrix& lhs, const Matrix& rhs);
+}
