@@ -12,6 +12,8 @@ public:
     Matrix(const Matrix& another);
     ~Matrix();
 
+    Matrix& operator=(const Matrix& another);
+
     std::pair<unsigned, unsigned> GetSize() const;
 
     float& operator()(unsigned i, unsigned j);

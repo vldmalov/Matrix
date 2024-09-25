@@ -43,6 +43,21 @@ Matrix::~Matrix() {
     }
 }
 
+Matrix& Matrix::operator=(const Matrix& another) {
+    if(this == &another) {
+        return *this;
+    }
+
+    mRows = another.mRows;
+    mColumns = another.mColumns;
+    float* newData = new float[mRows * mColumns];
+    std::swap(mData, newData);
+    delete [] newData;
+
+    std::copy(another.mData, another.mData + mRows * mColumns, mData);
+    return *this;
+}
+
 std::pair<unsigned, unsigned> Matrix::GetSize() const {
     return {mRows, mColumns};
 }

@@ -131,25 +131,7 @@ TEST(MatrixCreation, ConstructInvalidMatrixWithInitializerList) {
     }
 }
 
-TEST(MatrixItemsAccess, SetItemValues) {
-    // Arrange
-    Matrix matrix{2, 3, {1.0f, 1.0f, 1.0f,
-                         1.0f, 1.0f, 1.0f}};
-
-    // Act
-    matrix(0, 2) = -10.f;
-    matrix(1, 2) = 10.f;
-
-    // Assert
-    EXPECT_FLOAT_EQ(matrix(0, 0), 1.0f);
-    EXPECT_FLOAT_EQ(matrix(0, 1), 1.0f);
-    EXPECT_FLOAT_EQ(matrix(0, 2), -10.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 0), 1.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 1), 1.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 2), 10.0f);
-}
-
-TEST(MatrixOperations, CopyMatrix) {
+TEST(MatrixCreation, CopyMatrix) {
     // Arrange
     Matrix sourceMatrix{2, 2, {10.f, 0.0f,
                                0.0f, 4.0f}};
@@ -169,7 +151,7 @@ TEST(MatrixOperations, CopyMatrix) {
     EXPECT_FLOAT_EQ(copiedMatrix(1, 1), 4.0f);
 }
 
-TEST(MatrixOperations, CopyAndEditMatrix) {
+TEST(MatrixCreation, CopyAndEditMatrix) {
     // Arrange
     Matrix sourceMatrix{2, 2, {10.f, 0.0f,
                                0.0f, 4.0f}};
@@ -189,6 +171,109 @@ TEST(MatrixOperations, CopyAndEditMatrix) {
     EXPECT_FLOAT_EQ(copiedMatrix(0, 1), 8.0f);
     EXPECT_FLOAT_EQ(copiedMatrix(1, 0), 0.0f);
     EXPECT_FLOAT_EQ(copiedMatrix(1, 1), 4.0f);
+}
+
+TEST(MatrixItemsAccess, SetItemValues) {
+    // Arrange
+    Matrix matrix{2, 3, {1.0f, 1.0f, 1.0f,
+                         1.0f, 1.0f, 1.0f}};
+
+    // Act
+    matrix(0, 2) = -10.f;
+    matrix(1, 2) = 10.f;
+
+    // Assert
+    EXPECT_FLOAT_EQ(matrix(0, 0), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 2), -10.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 2), 10.0f);
+}
+
+TEST(MatrixAssignmentOperator, SameSize) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 2.0f,
+                         3.0f, 4.0f}};
+
+
+    // Act
+    matrix = Matrix{2, 2, {9.f, 8.0f,
+                           7.0f, 6.0f}};
+
+    // Assert
+    std::pair<unsigned, unsigned> size = matrix.GetSize();
+    EXPECT_EQ(size.first, 2);
+    EXPECT_EQ(size.second, 2);
+    EXPECT_FLOAT_EQ(matrix(0, 0), 9.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 8.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 7.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 6.0f);
+}
+
+TEST(MatrixAssignmentOperator, BiggerSize) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 2.0f,
+                         3.0f, 4.0f}};
+
+
+    // Act
+    matrix = Matrix{3, 3, {9.f, 8.f, 7.f,
+                           6.f, 5.f, 4.f,
+                           3.f, 2.f, 1.f}};
+
+    // Assert
+    std::pair<unsigned, unsigned> size = matrix.GetSize();
+    EXPECT_EQ(size.first, 3);
+    EXPECT_EQ(size.second, 3);
+    EXPECT_FLOAT_EQ(matrix(0, 0), 9.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 8.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 2), 7.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 6.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 5.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 2), 4.0f);
+    EXPECT_FLOAT_EQ(matrix(2, 0), 3.0f);
+    EXPECT_FLOAT_EQ(matrix(2, 1), 2.0f);
+    EXPECT_FLOAT_EQ(matrix(2, 2), 1.0f);
+}
+
+TEST(MatrixAssignmentOperator, SmallerSize) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 2.0f,
+                         3.0f, 4.0f}};
+
+
+    // Act
+    matrix = Matrix{1, 2, {9.f,
+                           8.f}};
+
+    // Assert
+    std::pair<unsigned, unsigned> size = matrix.GetSize();
+    EXPECT_EQ(size.first, 1);
+    EXPECT_EQ(size.second, 2);
+    EXPECT_FLOAT_EQ(matrix(0, 0), 9.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 8.0f);
+}
+
+TEST(MatrixAssignmentOperator, Themeself) {
+    // Arrange
+    Matrix matrix{2, 2, {1.f, 2.0f,
+                         3.0f, 4.0f}};
+
+    Matrix& refToMatrix = matrix;
+
+
+    // Act
+    matrix = refToMatrix;
+
+    // Assert
+    std::pair<unsigned, unsigned> size = matrix.GetSize();
+    EXPECT_EQ(size.first, 2);
+    EXPECT_EQ(size.second, 2);
+    EXPECT_FLOAT_EQ(matrix(0, 0), 1.0f);
+    EXPECT_FLOAT_EQ(matrix(0, 1), 2.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 0), 3.0f);
+    EXPECT_FLOAT_EQ(matrix(1, 1), 4.0f);
 }
 
 TEST(MatrixOperations, AdditionAssignmentOperator) {
