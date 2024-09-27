@@ -3,36 +3,43 @@
 #include <iostream>
 #include <stdexcept>
 
+// MatrixSize
+bool operator==(const MatrixSize& lhs, const MatrixSize& rhs) {
+    return lhs.rows == rhs.rows && lhs.columns == rhs.columns;
+}
+
+bool operator!=(const MatrixSize& lhs, const MatrixSize& rhs) {
+    return !(lhs == rhs);
+}
+
+// Matrix
 Matrix::Matrix(unsigned rows, unsigned columns, float itemValue)
-: mRows(rows)
-, mColumns(columns) {
-    if(mRows == 0 || mColumns == 0) {
+: mSize(rows, columns) {
+    if(mSize.rows == 0 || mSize.columns == 0) {
         throw std::invalid_argument("Matrix sizes should be grater than 0");
     }
 
-    mData = new float[mRows * mColumns];
-    std::fill(mData, mData + mRows * mColumns, itemValue);
+    mData = new float[mSize.rows * mSize.columns];
+    std::fill(mData, mData + mSize.rows * mSize.columns, itemValue);
 }
 
 Matrix::Matrix(const Matrix& another)
-: mRows(another.mRows)
-, mColumns(another.mColumns) {
-    mData = new float[mRows * mColumns];
-    std::copy(another.mData, another.mData + mRows * mColumns, mData);
+: mSize(another.mSize) {
+    mData = new float[mSize.rows * mSize.columns];
+    std::copy(another.mData, another.mData + mSize.rows * mSize.columns, mData);
 }
 
 Matrix::Matrix(unsigned rows, unsigned columns, std::initializer_list<float> values)
-: mRows(rows)
-, mColumns(columns) {
-    if (mRows == 0 || mColumns == 0) {
+: mSize(rows, columns) {
+    if (mSize.rows == 0 || mSize.columns == 0) {
         throw std::invalid_argument("Matrix sizes should be grater than 0");
     }
 
-    if (mRows * mColumns != values.size()) {
+    if (mSize.rows * mSize.columns != values.size()) {
         throw std::invalid_argument("Matrix size doesn't correspond to size of initializer list");
     }
 
-    mData = new float[mRows * mColumns];
+    mData = new float[mSize.rows * mSize.columns];
     std::copy(values.begin(), values.end(), mData);
 }
 
@@ -48,52 +55,51 @@ Matrix& Matrix::operator=(const Matrix& another) {
         return *this;
     }
 
-    mRows = another.mRows;
-    mColumns = another.mColumns;
-    float* newData = new float[mRows * mColumns];
+    mSize = another.mSize;
+    float* newData = new float[mSize.rows * mSize.columns];
     std::swap(mData, newData);
     delete [] newData;
 
-    std::copy(another.mData, another.mData + mRows * mColumns, mData);
+    std::copy(another.mData, another.mData + mSize.rows * mSize.columns, mData);
     return *this;
 }
 
-std::pair<unsigned, unsigned> Matrix::GetSize() const {
-    return {mRows, mColumns};
+MatrixSize Matrix::GetSize() const {
+    return mSize;
 }
 
 float& Matrix::operator()(unsigned i, unsigned j) {
-    return mData[i * mColumns + j];
+    return mData[i * mSize.columns + j];
 }
 
 const float& Matrix::operator()(unsigned i, unsigned j) const {
-    return mData[i * mColumns + j];
+    return mData[i * mSize.columns + j];
 }
 
 Matrix& Matrix::operator+=(const Matrix& another) {
-    if(mRows != another.mRows || mColumns != another.mColumns) {
+    if(mSize != another.mSize) {
         throw std::invalid_argument("Matrices should have the same size");
     }
 
-    for(unsigned idx = 0; idx < mRows*mColumns; ++idx) {
+    for(unsigned idx = 0; idx < mSize.rows*mSize.columns; ++idx) {
         *(mData + idx) += *(another.mData + idx);
     }
     return *this;
 }
 
 Matrix& Matrix::operator-=(const Matrix& another) {
-    if(mRows != another.mRows || mColumns != another.mColumns) {
+    if(mSize != another.mSize) {
         throw std::invalid_argument("Matrices should have the same size");
     }
 
-    for(unsigned idx = 0; idx < mRows*mColumns; ++idx) {
+    for(unsigned idx = 0; idx < mSize.rows*mSize.columns; ++idx) {
         *(mData + idx) -= *(another.mData + idx);
     }
     return *this;
 }
 
 Matrix& Matrix::operator*=(float scalar) {
-    for(unsigned idx = 0; idx < mRows*mColumns; ++idx) {
+    for(unsigned idx = 0; idx < mSize.rows*mSize.columns; ++idx) {
         *(mData + idx) *= scalar;
     }
     return *this;
@@ -112,12 +118,12 @@ Matrix operator-(const Matrix& lhs, const Matrix& rhs) {
 }
 
 Matrix operator*(const Matrix& lhs, const Matrix& rhs) {
-    if(lhs.mColumns != rhs.mRows) {
+    if(lhs.mSize.columns != rhs.mSize.rows) {
         throw std::invalid_argument("Matrices sizes should correspond to each other");
     }
-    unsigned rowsNumber = lhs.mRows;
-    unsigned columnsNumber = rhs.mColumns;
-    unsigned internalSize = lhs.mColumns;
+    unsigned rowsNumber = lhs.mSize.rows;
+    unsigned columnsNumber = rhs.mSize.columns;
+    unsigned internalSize = lhs.mSize.columns;
 
     Matrix result(rowsNumber, columnsNumber);
     for(unsigned i = 0; i < rowsNumber; ++i) {
@@ -141,10 +147,10 @@ Matrix operator*(float scalar, const Matrix& matrix) {
 }
 
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
-    os << "Matrix size: (" << matrix.mRows << "; " << matrix.mColumns << ")" << std::endl;
-    for(unsigned i = 0; i < matrix.mRows; ++i) {
+    os << "Matrix size: (" << matrix.mSize.rows << "; " << matrix.mSize.columns << ")" << std::endl;
+    for(unsigned i = 0; i < matrix.mSize.rows; ++i) {
         os << "[ ";
-        for(unsigned j = 0; j < matrix.mColumns; ++j) {
+        for(unsigned j = 0; j < matrix.mSize.columns; ++j) {
             os << matrix(i, j) << " ";
         }
         os << "]" << std::endl;

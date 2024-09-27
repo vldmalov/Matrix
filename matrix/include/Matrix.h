@@ -4,6 +4,16 @@
 #include <utility>
 #include <initializer_list>
 
+struct MatrixSize {
+    unsigned rows{ 0 };
+    unsigned columns{ 0 };
+
+    MatrixSize(unsigned rows, unsigned columns) : rows(rows), columns(columns) {}
+};
+
+bool operator==(const MatrixSize& lhs, const MatrixSize& rhs);
+bool operator!=(const MatrixSize& lhs, const MatrixSize& rhs);
+
 struct Matrix {
 public:
     Matrix() = delete;
@@ -14,7 +24,7 @@ public:
 
     Matrix& operator=(const Matrix& another);
 
-    std::pair<unsigned, unsigned> GetSize() const;
+    MatrixSize GetSize() const;
 
     float& operator()(unsigned i, unsigned j);
     const float& operator()(unsigned i, unsigned j) const;
@@ -32,8 +42,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
 
 private:
-    unsigned mRows{0};
-    unsigned mColumns{0};
+    MatrixSize mSize;
     float* mData{nullptr};
 };
 

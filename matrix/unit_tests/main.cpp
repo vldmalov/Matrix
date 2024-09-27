@@ -8,9 +8,7 @@ TEST(MatrixCreation, ConstructRowMatrixWithDefaultValues) {
     Matrix matrix{1, 3};
 
     // Assert
-    auto matrixSize = matrix.GetSize();
-    EXPECT_EQ(matrixSize.first, 1);
-    EXPECT_EQ(matrixSize.second, 3);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(1, 3));
     EXPECT_FLOAT_EQ(matrix(0, 0), 0.f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 0.f);
     EXPECT_FLOAT_EQ(matrix(0, 2), 0.f);
@@ -22,9 +20,7 @@ TEST(MatrixCreation, ConstructColumnMatrixWithDefaultValues) {
     Matrix matrix{4, 1};
 
     // Assert
-    auto matrixSize = matrix.GetSize();
-    EXPECT_EQ(matrixSize.first, 4);
-    EXPECT_EQ(matrixSize.second, 1);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(4, 1));
     EXPECT_FLOAT_EQ(matrix(0, 0), 0.f);
     EXPECT_FLOAT_EQ(matrix(1, 0), 0.f);
     EXPECT_FLOAT_EQ(matrix(2, 0), 0.f);
@@ -37,9 +33,7 @@ TEST(MatrixCreation, ConstructSquareConstMatrixWithDefaultValues) {
     const Matrix matrix{2, 2};
 
     // Assert
-    auto matrixSize = matrix.GetSize();
-    EXPECT_EQ(matrixSize.first, 2);
-    EXPECT_EQ(matrixSize.second, 2);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(2, 2));
     EXPECT_FLOAT_EQ(matrix(0, 0), 0.f);
     EXPECT_FLOAT_EQ(matrix(1, 0), 0.f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 0.f);
@@ -52,9 +46,7 @@ TEST(MatrixCreation, ConstructMatrixWithPredefinedValues) {
     Matrix matrix{2, 3, 4.5f};
 
     // Assert
-    auto matrixSize = matrix.GetSize();
-    EXPECT_EQ(matrixSize.first, 2);
-    EXPECT_EQ(matrixSize.second, 3);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(2, 3));
     EXPECT_FLOAT_EQ(matrix(0, 0), 4.5f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 4.5f);
     EXPECT_FLOAT_EQ(matrix(0, 2), 4.5f);
@@ -70,9 +62,7 @@ TEST(MatrixCreation, ConstructMatrixWithInitializerList) {
                          4.4f, 5.5f, 6.6f}};
 
     // Assert
-    auto matrixSize = matrix.GetSize();
-    EXPECT_EQ(matrixSize.first, 2);
-    EXPECT_EQ(matrixSize.second, 3);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(2, 3));
     EXPECT_FLOAT_EQ(matrix(0, 0), 1.1f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 2.2f);
     EXPECT_FLOAT_EQ(matrix(0, 2), 3.3f);
@@ -202,9 +192,7 @@ TEST(MatrixAssignmentOperator, SameSize) {
                            7.0f, 6.0f}};
 
     // Assert
-    std::pair<unsigned, unsigned> size = matrix.GetSize();
-    EXPECT_EQ(size.first, 2);
-    EXPECT_EQ(size.second, 2);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(2, 2));
     EXPECT_FLOAT_EQ(matrix(0, 0), 9.0f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 8.0f);
     EXPECT_FLOAT_EQ(matrix(1, 0), 7.0f);
@@ -223,9 +211,7 @@ TEST(MatrixAssignmentOperator, BiggerSize) {
                            3.f, 2.f, 1.f}};
 
     // Assert
-    std::pair<unsigned, unsigned> size = matrix.GetSize();
-    EXPECT_EQ(size.first, 3);
-    EXPECT_EQ(size.second, 3);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(3, 3));
     EXPECT_FLOAT_EQ(matrix(0, 0), 9.0f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 8.0f);
     EXPECT_FLOAT_EQ(matrix(0, 2), 7.0f);
@@ -248,9 +234,7 @@ TEST(MatrixAssignmentOperator, SmallerSize) {
                            8.f}};
 
     // Assert
-    std::pair<unsigned, unsigned> size = matrix.GetSize();
-    EXPECT_EQ(size.first, 1);
-    EXPECT_EQ(size.second, 2);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(1, 2));
     EXPECT_FLOAT_EQ(matrix(0, 0), 9.0f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 8.0f);
 }
@@ -267,9 +251,7 @@ TEST(MatrixAssignmentOperator, Themeself) {
     matrix = refToMatrix;
 
     // Assert
-    std::pair<unsigned, unsigned> size = matrix.GetSize();
-    EXPECT_EQ(size.first, 2);
-    EXPECT_EQ(size.second, 2);
+    EXPECT_EQ(matrix.GetSize(), MatrixSize(2, 2));
     EXPECT_FLOAT_EQ(matrix(0, 0), 1.0f);
     EXPECT_FLOAT_EQ(matrix(0, 1), 2.0f);
     EXPECT_FLOAT_EQ(matrix(1, 0), 3.0f);
@@ -491,9 +473,7 @@ TEST(MatrixMultiply, SingleItemMatrices) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
-    EXPECT_EQ(size.first, 1);
-    EXPECT_EQ(size.second, 1);
+    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(1, 1));
     EXPECT_FLOAT_EQ(resultMatrix(0, 0), 15.f);
 }
 
@@ -510,9 +490,7 @@ TEST(MatrixMultiply, SquareMatrices) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
-    EXPECT_EQ(size.first, 3);
-    EXPECT_EQ(size.second, 3);
+    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(3, 3));
     EXPECT_FLOAT_EQ(resultMatrix(0, 0), -37.f);
     EXPECT_FLOAT_EQ(resultMatrix(0, 1), 18.f);
     EXPECT_FLOAT_EQ(resultMatrix(0, 2), 31.f);
@@ -537,9 +515,7 @@ TEST(MatrixMultiply, IdentityMatrix) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
-    EXPECT_EQ(size.first, 3);
-    EXPECT_EQ(size.second, 3);
+    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(3, 3));
     EXPECT_FLOAT_EQ(resultMatrix(0, 0), 1.f);
     EXPECT_FLOAT_EQ(resultMatrix(0, 1), -5.f);
     EXPECT_FLOAT_EQ(resultMatrix(0, 2), 3.f);
@@ -562,9 +538,7 @@ TEST(MatrixMultiply, DifferentSizes1) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
-    EXPECT_EQ(size.first, 1);
-    EXPECT_EQ(size.second, 1);
+    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(1, 1));
     EXPECT_FLOAT_EQ(resultMatrix(0, 0), -37.f);
 }
 
@@ -579,9 +553,7 @@ TEST(MatrixMultiply, DifferentSizes2) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
-    EXPECT_EQ(size.first, 3);
-    EXPECT_EQ(size.second, 3);
+    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(3, 3));
     EXPECT_FLOAT_EQ(resultMatrix(0, 0), -8.f);
     EXPECT_FLOAT_EQ(resultMatrix(0, 1), 40.f);
     EXPECT_FLOAT_EQ(resultMatrix(0, 2), -24.f);
