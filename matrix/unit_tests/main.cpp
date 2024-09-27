@@ -482,7 +482,131 @@ TEST(MatrixOperations, OperatorMultiplyOnScalar) {
     EXPECT_FLOAT_EQ(resultMatrix2(1, 1), 44.f);
 }
 
-TEST(MatrixOperations, OperatorMultiplyMatrices) {
-    // TODO: Implement
-    //Matrix operator*(const Matrix& lhs, const Matrix& rhs);
+TEST(MatrixMultiply, SingleItemMatrices) {
+    // Arrange
+    Matrix matrix1{1, 1, {3.f}};
+    Matrix matrix2{1, 1, {5.f}};
+
+    // Act
+    const Matrix resultMatrix = matrix1 * matrix2;
+
+    // Assert
+    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
+    EXPECT_EQ(size.first, 1);
+    EXPECT_EQ(size.second, 1);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), 15.f);
+}
+
+TEST(MatrixMultiply, SquareMatrices) {
+    // Arrange
+    Matrix matrix1{3, 3, {1.f, -5.f, 3.f,
+                          0.f, -2.f, 6.f,
+                          7.f, 2.f, -4.f}};
+    Matrix matrix2{3, 3, {-8.f, 6.f, 1.f,
+                          7.f, 0.f, -3.f,
+                          2.f, 4.f, 5.f}};
+
+    // Act
+    const Matrix resultMatrix = matrix1 * matrix2;
+
+    // Assert
+    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
+    EXPECT_EQ(size.first, 3);
+    EXPECT_EQ(size.second, 3);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -37.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 1), 18.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 2), 31.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 0), -2.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 1), 24.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 2), 36.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 0), -50.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 1), 26.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 2), -19.f);
+}
+
+TEST(MatrixMultiply, IdentityMatrix) {
+    // Arrange
+    Matrix matrix1{3, 3, {1.f, -5.f, 3.f,
+                          0.f, -2.f, 6.f,
+                          7.f, 2.f, -4.f}};
+    Matrix matrix2{3, 3, {1.f, 0.f, 0.f,
+                          0.f, 1.f, 0.f,
+                          0.f, 0.f, 1.f}};
+
+    // Act
+    const Matrix resultMatrix = matrix1 * matrix2;
+
+    // Assert
+    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
+    EXPECT_EQ(size.first, 3);
+    EXPECT_EQ(size.second, 3);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), 1.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 1), -5.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 2), 3.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 0), 0.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 1), -2.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 2), 6.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 0), 7.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 1), 2.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 2), -4.f);
+}
+
+TEST(MatrixMultiply, DifferentSizes1) {
+    // Arrange
+    Matrix matrix1{1, 3, {1.f, -5.f, 3.f}};
+    Matrix matrix2{3, 1, {-8.f,
+                          7.f,
+                          2.f}};
+
+    // Act
+    const Matrix resultMatrix = matrix1 * matrix2;
+
+    // Assert
+    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
+    EXPECT_EQ(size.first, 1);
+    EXPECT_EQ(size.second, 1);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -37.f);
+}
+
+TEST(MatrixMultiply, DifferentSizes2) {
+    // Arrange
+    Matrix matrix1{3, 1, {-8.f,
+                          7.f,
+                          2.f}};
+    Matrix matrix2{1, 3, {1.f, -5.f, 3.f}};
+
+    // Act
+    const Matrix resultMatrix = matrix1 * matrix2;
+
+    // Assert
+    std::pair<unsigned, unsigned> size = resultMatrix.GetSize();
+    EXPECT_EQ(size.first, 3);
+    EXPECT_EQ(size.second, 3);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -8.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 1), 40.f);
+    EXPECT_FLOAT_EQ(resultMatrix(0, 2), -24.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 0), 7.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 1), -35.f);
+    EXPECT_FLOAT_EQ(resultMatrix(1, 2), 21.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 0), 2.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 1), -10.f);
+    EXPECT_FLOAT_EQ(resultMatrix(2, 2), 6.f);
+}
+
+TEST(MatrixMultiply, InvalidSizedMatrices) {
+    // Arrange
+    Matrix matrix1{2, 2, {-8.f, 4.f,
+                          7.f, 3.f}};
+    Matrix matrix2{1, 3, {1.f, -5.f, 3.f}};
+
+    try {
+        // Act
+        const Matrix resultMatrix = matrix1 * matrix2;
+        FAIL() << "Expected std::invalid_argument";
+    } catch (std::invalid_argument const & err) {
+        // Assert
+        EXPECT_EQ(err.what(), std::string("Matrices sizes should correspond to each other"));
+    } catch(...) {
+        FAIL() << "Expected std::invalid_argument";
+    }
 }
