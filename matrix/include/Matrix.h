@@ -39,6 +39,9 @@ public:
     friend Matrix operator*(const Matrix& matrix, float scalar);
     friend Matrix operator*(float scalar, const Matrix& matrix);
 
+    friend bool operator==(const Matrix& lhs, const Matrix& rhs);
+    friend bool operator!=(const Matrix& lhs, const Matrix& rhs);
+
     friend std::ostream& operator<<(std::ostream& os, const Matrix& matrix);
 
 private:
@@ -51,5 +54,8 @@ Matrix operator-(const Matrix& lhs, const Matrix& rhs);
 Matrix operator*(const Matrix& lhs, const Matrix& rhs);
 Matrix operator*(const Matrix& matrix, float scalar);
 Matrix operator*(float scalar, const Matrix& matrix);
+
+bool operator==(const Matrix& lhs, const Matrix& rhs);
+bool operator!=(const Matrix& lhs, const Matrix& rhs);
 
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix);

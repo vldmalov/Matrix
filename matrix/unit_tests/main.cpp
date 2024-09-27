@@ -351,10 +351,8 @@ TEST(MatrixOperations, MultipyMatrixOnZeroScalar) {
     matrix *= 0.f;
 
     // Assert
-    EXPECT_FLOAT_EQ(matrix(0, 0), 0.0f);
-    EXPECT_FLOAT_EQ(matrix(0, 1), 0.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 0), 0.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 1), 0.0f);
+    EXPECT_EQ(matrix, Matrix(2, 2, {0.0f, 0.0f,
+                                    0.0f, 0.0f}));
 }
 
 TEST(MatrixOperations, MultipyMatrixOnPositiveScalar) {
@@ -366,10 +364,8 @@ TEST(MatrixOperations, MultipyMatrixOnPositiveScalar) {
     matrix *= 4.5f;
 
     // Assert
-    EXPECT_FLOAT_EQ(matrix(0, 0), 4.5f);
-    EXPECT_FLOAT_EQ(matrix(0, 1), 0.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 0), -13.5f);
-    EXPECT_FLOAT_EQ(matrix(1, 1), 13.5f);
+    EXPECT_EQ(matrix, Matrix(2, 2, {4.5f, 0.0f,
+                                    -13.5f, 13.5f}));
 }
 
 TEST(MatrixOperations, MultipyMatrixOnNegativeScalar) {
@@ -381,10 +377,8 @@ TEST(MatrixOperations, MultipyMatrixOnNegativeScalar) {
     matrix *= -4.5f;
 
     // Assert
-    EXPECT_FLOAT_EQ(matrix(0, 0), -4.5f);
-    EXPECT_FLOAT_EQ(matrix(0, 1), 0.0f);
-    EXPECT_FLOAT_EQ(matrix(1, 0), 13.5f);
-    EXPECT_FLOAT_EQ(matrix(1, 1), -13.5f);
+    EXPECT_EQ(matrix, Matrix(2, 2, {-4.5f, 0.0f,
+                                   13.5f, -13.5f}));
 }
 
 TEST(MatrixOperations, OperatorPlus) {
@@ -399,20 +393,14 @@ TEST(MatrixOperations, OperatorPlus) {
     Matrix resultMatrix = firstMatrix + secondMatrix;
 
     // Assert
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), 11.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 1), 22.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 0), 33.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 1), 44.f);
+    EXPECT_EQ(resultMatrix, Matrix(2, 2, {11.f, 22.f,
+                                          33.f, 44.f}));
 
-    EXPECT_FLOAT_EQ(firstMatrix(0, 0), 1.f);
-    EXPECT_FLOAT_EQ(firstMatrix(0, 1), 2.f);
-    EXPECT_FLOAT_EQ(firstMatrix(1, 0), 3.f);
-    EXPECT_FLOAT_EQ(firstMatrix(1, 1), 4.f);
+    EXPECT_EQ(firstMatrix, Matrix(2, 2, {1.f, 2.0f,
+                                         3.0f, 4.0f}));
 
-    EXPECT_FLOAT_EQ(secondMatrix(0, 0), 10.f);
-    EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.f);
-    EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.f);
-    EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.f);
+    EXPECT_EQ(secondMatrix, Matrix(2, 2, {10.f, 20.0f,
+                                          30.0f, 40.0f}));
 }
 
 TEST(MatrixOperations, OperatorMinus) {
@@ -427,20 +415,14 @@ TEST(MatrixOperations, OperatorMinus) {
     Matrix resultMatrix = firstMatrix - secondMatrix;
 
     // Assert
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -9.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 1), -18.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 0), -27.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 1), -36.f);
+    EXPECT_EQ(resultMatrix, Matrix(2, 2, {-9.f, -18.f,
+                                           -27.f, -36.f}));
 
-    EXPECT_FLOAT_EQ(firstMatrix(0, 0), 1.f);
-    EXPECT_FLOAT_EQ(firstMatrix(0, 1), 2.f);
-    EXPECT_FLOAT_EQ(firstMatrix(1, 0), 3.f);
-    EXPECT_FLOAT_EQ(firstMatrix(1, 1), 4.f);
+    EXPECT_EQ(firstMatrix, Matrix(2, 2, {1.f, 2.0f,
+                                        3.0f, 4.0f}));
 
-    EXPECT_FLOAT_EQ(secondMatrix(0, 0), 10.f);
-    EXPECT_FLOAT_EQ(secondMatrix(0, 1), 20.f);
-    EXPECT_FLOAT_EQ(secondMatrix(1, 0), 30.f);
-    EXPECT_FLOAT_EQ(secondMatrix(1, 1), 40.f);
+    EXPECT_EQ(secondMatrix, Matrix(2, 2, {10.f, 20.0f,
+                                         30.0f, 40.0f}));
 }
 
 TEST(MatrixOperations, OperatorMultiplyOnScalar) {
@@ -453,15 +435,10 @@ TEST(MatrixOperations, OperatorMultiplyOnScalar) {
     Matrix resultMatrix2 = 11.f * matrix;
 
     // Assert
-    EXPECT_FLOAT_EQ(resultMatrix1(0, 0), 11.f);
-    EXPECT_FLOAT_EQ(resultMatrix1(0, 1), 22.f);
-    EXPECT_FLOAT_EQ(resultMatrix1(1, 0), 33.f);
-    EXPECT_FLOAT_EQ(resultMatrix1(1, 1), 44.f);
-
-    EXPECT_FLOAT_EQ(resultMatrix2(0, 0), 11.f);
-    EXPECT_FLOAT_EQ(resultMatrix2(0, 1), 22.f);
-    EXPECT_FLOAT_EQ(resultMatrix2(1, 0), 33.f);
-    EXPECT_FLOAT_EQ(resultMatrix2(1, 1), 44.f);
+    EXPECT_EQ(resultMatrix1, Matrix(2, 2, {11.f, 22.f,
+                                           33.f, 44.f}));
+    EXPECT_EQ(resultMatrix2, Matrix(2, 2, {11.f, 22.f,
+                                           33.f, 44.f}));
 }
 
 TEST(MatrixMultiply, SingleItemMatrices) {
@@ -473,8 +450,7 @@ TEST(MatrixMultiply, SingleItemMatrices) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(1, 1));
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), 15.f);
+    EXPECT_EQ(resultMatrix, Matrix(1, 1, {15.f}));
 }
 
 TEST(MatrixMultiply, SquareMatrices) {
@@ -490,16 +466,9 @@ TEST(MatrixMultiply, SquareMatrices) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(3, 3));
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -37.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 1), 18.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 2), 31.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 0), -2.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 1), 24.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 2), 36.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 0), -50.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 1), 26.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 2), -19.f);
+    EXPECT_EQ(resultMatrix, Matrix(3, 3, {-37.f, 18.f, 31.f,
+                                          -2.f, 24.f, 36.f,
+                                          -50.f, 26.f, -19.f}));
 }
 
 TEST(MatrixMultiply, IdentityMatrix) {
@@ -515,16 +484,9 @@ TEST(MatrixMultiply, IdentityMatrix) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(3, 3));
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), 1.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 1), -5.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 2), 3.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 0), 0.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 1), -2.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 2), 6.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 0), 7.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 1), 2.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 2), -4.f);
+    EXPECT_EQ(resultMatrix, Matrix(3, 3, {1.f, -5.f, 3.f,
+                                          0.f, -2.f, 6.f,
+                                          7.f, 2.f, -4.f}));
 }
 
 TEST(MatrixMultiply, DifferentSizes1) {
@@ -538,8 +500,7 @@ TEST(MatrixMultiply, DifferentSizes1) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(1, 1));
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -37.f);
+    EXPECT_EQ(resultMatrix, Matrix(1, 1, {-37.f}));
 }
 
 TEST(MatrixMultiply, DifferentSizes2) {
@@ -553,16 +514,9 @@ TEST(MatrixMultiply, DifferentSizes2) {
     const Matrix resultMatrix = matrix1 * matrix2;
 
     // Assert
-    EXPECT_EQ(resultMatrix.GetSize(), MatrixSize(3, 3));
-    EXPECT_FLOAT_EQ(resultMatrix(0, 0), -8.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 1), 40.f);
-    EXPECT_FLOAT_EQ(resultMatrix(0, 2), -24.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 0), 7.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 1), -35.f);
-    EXPECT_FLOAT_EQ(resultMatrix(1, 2), 21.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 0), 2.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 1), -10.f);
-    EXPECT_FLOAT_EQ(resultMatrix(2, 2), 6.f);
+    EXPECT_EQ(resultMatrix, Matrix(3, 3, {-8.f, 40.f, -24.f,
+                                          7.f, -35.f, 21.f,
+                                          2.f, -10.f, 6.f}));
 }
 
 TEST(MatrixMultiply, InvalidSizedMatrices) {

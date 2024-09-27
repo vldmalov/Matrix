@@ -146,6 +146,23 @@ Matrix operator*(float scalar, const Matrix& matrix) {
     return operator*(matrix, scalar);
 }
 
+bool operator==(const Matrix& lhs, const Matrix& rhs) {
+    if(lhs.mSize != rhs.mSize) {
+        return false;
+    }
+
+    for(unsigned idx = 0; idx < lhs.mSize.rows * lhs.mSize.columns; ++idx) {
+        if(*(lhs.mData + idx) != *(rhs.mData + idx)) {
+            return false;
+        }
+    }
+    return true;
+}
+
+bool operator!=(const Matrix& lhs, const Matrix& rhs) {
+    return !(lhs == rhs);
+}
+
 std::ostream& operator<<(std::ostream& os, const Matrix& matrix) {
     os << "Matrix size: (" << matrix.mSize.rows << "; " << matrix.mSize.columns << ")" << std::endl;
     for(unsigned i = 0; i < matrix.mSize.rows; ++i) {
