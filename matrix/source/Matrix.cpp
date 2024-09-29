@@ -76,6 +76,16 @@ const float& Matrix::operator()(unsigned i, unsigned j) const {
     return mData[i * mSize.columns + j];
 }
 
+Matrix Matrix::Transposition() const {
+    Matrix result(mSize.columns, mSize.rows);
+    for(unsigned i = 0; i < mSize.rows; ++i) {
+        for(unsigned j = 0; j < mSize.columns; ++j) {
+            result(j, i) = this->operator()(i, j);
+        }
+    }
+    return result;
+}
+
 Matrix& Matrix::operator+=(const Matrix& another) {
     if(mSize != another.mSize) {
         throw std::invalid_argument("Matrices should have the same size");

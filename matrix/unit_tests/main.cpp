@@ -243,9 +243,7 @@ TEST(MatrixAssignmentOperator, Themeself) {
     // Arrange
     Matrix matrix{2, 2, {1.f, 2.0f,
                          3.0f, 4.0f}};
-
     Matrix& refToMatrix = matrix;
-
 
     // Act
     matrix = refToMatrix;
@@ -535,4 +533,101 @@ TEST(MatrixMultiply, InvalidSizedMatrices) {
     } catch(...) {
         FAIL() << "Expected std::invalid_argument";
     }
+}
+
+TEST(MatrixTransposition, OneItemMatrix) {
+    // Arrange
+    Matrix matrix{1, 1, {5.5f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(1, 1, {5.5f}));
+}
+
+TEST(MatrixTransposition, RowMatrix) {
+    // Arrange
+    Matrix matrix{1, 3, {3.f, 6.f, 9.f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(3, 1, {3.f,
+                                              6.f,
+                                              9.f}));
+}
+
+TEST(MatrixTransposition, ColumnMatrix) {
+    // Arrange
+    Matrix matrix{3, 1, {3.f,
+                         6.f,
+                         9.f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(1, 3, {3.f, 6.f, 9.f}));
+}
+
+TEST(MatrixTransposition, IdentityMatrix) {
+    // Arrange
+    Matrix matrix{3, 3, {1.f, 0.f, 0.f,
+                         0.f, 1.f, 0.f,
+                         0.f, 0.f, 1.f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(3, 3, {1.f, 0.f, 0.f,
+                                              0.f, 1.f, 0.f,
+                                              0.f, 0.f, 1.f}));
+}
+
+TEST(MatrixTransposition, DiagonalMatrix) {
+    // Arrange
+    Matrix matrix{3, 3, {7.f, 0.f, 0.f,
+                         0.f, 6.f, 0.f,
+                         0.f, 0.f, 5.f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(3, 3, {7.f, 0.f, 0.f,
+                                              0.f, 6.f, 0.f,
+                                              0.f, 0.f, 5.f}));
+}
+
+TEST(MatrixTransposition, SquareMatrix) {
+    // Arrange
+    Matrix matrix{3, 3, {1.f, 2.f, 3.f,
+                         4.f, 5.f, 6.f,
+                         7.f, 8.f, 9.f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(3, 3, {1.f, 4.f, 7.f,
+                                              2.f, 5.f, 8.f,
+                                              3.f, 6.f, 9.f}));
+}
+
+TEST(MatrixTransposition, ArbitraryMatrix) {
+    // Arrange
+    Matrix matrix{2, 4, {1.f, 2.f, 3.f, 4.f,
+                         5.f, 6.f, 7.f, 8.f}};
+
+    // Act
+    Matrix transposedMatrix = matrix.Transposition();
+
+    // Assert
+    EXPECT_EQ(transposedMatrix, Matrix(4, 2, {1.f, 5.f,
+                                              2.f, 6.f,
+                                              3.f, 7.f,
+                                              4.f, 8.f}));
 }
