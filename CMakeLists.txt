@@ -15,7 +15,7 @@ endif()
 file(GLOB_RECURSE source_files "./matrix/source/*.cpp")
 file(GLOB_RECURSE include_files "./matrix/include/*.h")
 set(all_sources ${source_files} ${include_files})
-add_executable(${target_name} WIN32 MACOSX_BUNDLE ${all_sources})
+add_executable(${target_name} MACOSX_BUNDLE ${all_sources})
 
 target_include_directories(${target_name} PRIVATE "./matrix/include")
 
