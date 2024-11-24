@@ -18,5 +18,7 @@ target_link_libraries(${target_name} GTest::gtest_main)
 target_compile_features(${target_name} INTERFACE cxx_std_20)
 target_include_directories(${target_name} PRIVATE "../include")
 
+set(CMAKE_GTEST_DISCOVER_TESTS_DISCOVERY_MODE PRE_TEST)
+
 include(GoogleTest)
 gtest_discover_tests(${target_name})
