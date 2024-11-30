@@ -43,6 +43,20 @@ Matrix::Matrix(unsigned rows, unsigned columns, std::initializer_list<float> val
     std::copy(values.begin(), values.end(), mData);
 }
 
+Matrix::Matrix(unsigned rows, unsigned columns, std::span<float> values)
+: mSize(rows, columns) {
+    if (mSize.rows == 0 || mSize.columns == 0) {
+        throw std::invalid_argument("Matrix sizes should be grater than 0");
+    }
+
+    if (mSize.rows * mSize.columns != values.size()) {
+        throw std::invalid_argument("Matrix size doesn't correspond to size of initializer list");
+    }
+
+    mData = new float[mSize.rows * mSize.columns];
+    std::copy(values.begin(), values.end(), mData);
+}
+
 Matrix::~Matrix() {
     if(mData) {
         delete [] mData;

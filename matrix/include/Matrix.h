@@ -3,6 +3,7 @@
 #include <iosfwd>
 #include <utility>
 #include <initializer_list>
+#include <span>
 
 struct MatrixSize {
     unsigned rows{ 0 };
@@ -19,6 +20,7 @@ public:
     Matrix() = delete;
     Matrix(unsigned rows, unsigned columns, float itemValue = 0.f);
     Matrix(unsigned rows, unsigned columns, std::initializer_list<float> values);
+    Matrix(unsigned rows, unsigned columns, std::span<float> values);
     Matrix(const Matrix& another);
     ~Matrix();
 
