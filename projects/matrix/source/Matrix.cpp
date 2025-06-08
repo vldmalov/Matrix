@@ -25,12 +25,6 @@ Matrix::Matrix(unsigned rows, unsigned columns, float itemValue)
     std::fill(mData, mData + mSize.rows * mSize.columns, itemValue);
 }
 
-Matrix::Matrix(const Matrix& another)
-: mSize(another.mSize) {
-    mData = new float[mSize.rows * mSize.columns];
-    std::copy(another.mData, another.mData + mSize.rows * mSize.columns, mData);
-}
-
 Matrix::Matrix(unsigned rows, unsigned columns, std::initializer_list<float> values)
 : mSize(rows, columns) {
     if (mSize.rows == 0 || mSize.columns == 0) {
@@ -57,6 +51,12 @@ Matrix::Matrix(unsigned rows, unsigned columns, std::span<float> values)
 
     mData = new float[mSize.rows * mSize.columns];
     std::ranges::copy(values, mData);
+}
+
+Matrix::Matrix(const Matrix& another)
+: mSize(another.mSize) {
+    mData = new float[mSize.rows * mSize.columns];
+    std::copy(another.mData, another.mData + mSize.rows * mSize.columns, mData);
 }
 
 Matrix::Matrix(Matrix&& another) noexcept
