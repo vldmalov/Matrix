@@ -89,7 +89,7 @@ BENCHMARK(bmMatrixCreationInitializerList3x3Benchmark);
 BENCHMARK(bmMatrixCreationSimple10x10Benchmark);
 BENCHMARK(bmMatrixCreationInitializerList10x10Benchmark);
 
-// Horisontal/Vertical
+// Horizontal/Vertical
 BENCHMARK(bmMatricesMultiplication3x3Benchmark);
 BENCHMARK(bmMatricesMultiplication9x9Benchmark);
 BENCHMARK(bmMatricesMultiplication81x81Benchmark);
